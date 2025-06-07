@@ -1,27 +1,17 @@
+"use client";
+
 import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
+import { useAudioEngine } from "@/hooks";
 
-interface AudioControlsProps {
-  baseFrequency: number;
-  volume: number;
-  onBaseFrequencyChange: (freq: number) => void;
-  onVolumeChange: (vol: number) => void;
-}
-
-export const AudioControls = ({
-  baseFrequency,
-  volume,
-  onBaseFrequencyChange,
-  onVolumeChange,
-}: AudioControlsProps) => {
-  const handleBaseFrequencyChange = (value: number[]) => {
-    onBaseFrequencyChange(value[0]);
-  };
-
-  const handleVolumeChange = (value: number[]) => {
-    onVolumeChange(value[0]);
-  };
+export const AudioControls = () => {
+  const {
+    baseFrequency,
+    volume,
+    handleBaseFrequencyChange,
+    handleVolumeChange,
+  } = useAudioEngine();
 
   return (
     <div className="space-y-4">
@@ -37,7 +27,7 @@ export const AudioControls = ({
           max={1000}
           step={10}
           value={[baseFrequency]}
-          onValueChange={handleBaseFrequencyChange}
+          onValueChange={(value) => handleBaseFrequencyChange(value[0])}
         />
       </div>
 
@@ -52,7 +42,7 @@ export const AudioControls = ({
           max={0}
           step={1}
           value={[volume]}
-          onValueChange={handleVolumeChange}
+          onValueChange={(value) => handleVolumeChange(value[0])}
         />
       </div>
     </div>

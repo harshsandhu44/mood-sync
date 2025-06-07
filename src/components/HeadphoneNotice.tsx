@@ -1,15 +1,22 @@
-import { SoundType } from "@/types/audio";
+"use client";
 
-interface HeadphoneNoticeProps {
-  soundType: SoundType;
-}
+import { InfoIcon } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { useAudioEngine } from "@/hooks";
 
-export const HeadphoneNotice = ({ soundType }: HeadphoneNoticeProps) => {
+export const HeadphoneNotice = () => {
+  const { soundType } = useAudioEngine();
+
   if (soundType !== "binaural") return " ";
 
   return (
-    <p className="text-center text-sm text-accent-foreground font-medium">
-      For Binaural Beats, stereo headphones are required for the effect to work.
-    </p>
+    <Alert>
+      <InfoIcon className="h-4 w-4" />
+      <AlertTitle>Headphone Notice</AlertTitle>
+      <AlertDescription>
+        For Binaural Beats, stereo headphones are required for the effect to
+        work.
+      </AlertDescription>
+    </Alert>
   );
 };

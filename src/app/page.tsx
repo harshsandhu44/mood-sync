@@ -1,6 +1,3 @@
-"use client";
-
-import { useAudioEngine } from "@/hooks";
 import {
   SafetyWarning,
   MoodSelector,
@@ -10,21 +7,7 @@ import {
   HeadphoneNotice,
 } from "@/components";
 
-// Main App component for the Mood-Based Sound Frequency application
-export default function App() {
-  const {
-    selectedMood,
-    soundType,
-    isPlaying,
-    volume,
-    baseFrequency,
-    setSelectedMood,
-    setSoundType,
-    togglePlayback,
-    handleVolumeChange,
-    handleBaseFrequencyChange,
-  } = useAudioEngine();
-
+export default function Home() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-card shadow-lg rounded-lg p-8 max-w-lg w-full space-y-6">
@@ -33,27 +16,11 @@ export default function App() {
         </h1>
 
         <SafetyWarning />
-
-        <MoodSelector
-          selectedMood={selectedMood}
-          onMoodChange={setSelectedMood}
-        />
-
-        <SoundTypeSelector
-          soundType={soundType}
-          onSoundTypeChange={setSoundType}
-        />
-
-        <AudioControls
-          baseFrequency={baseFrequency}
-          volume={volume}
-          onBaseFrequencyChange={handleBaseFrequencyChange}
-          onVolumeChange={handleVolumeChange}
-        />
-
-        <PlaybackButton isPlaying={isPlaying} onToggle={togglePlayback} />
-
-        <HeadphoneNotice soundType={soundType} />
+        <MoodSelector />
+        <SoundTypeSelector />
+        <AudioControls />
+        <PlaybackButton />
+        <HeadphoneNotice />
       </div>
     </div>
   );
