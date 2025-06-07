@@ -149,5 +149,3 @@ export default function MyPage() {
   );
 }
 ```
-
-This modular structure makes the codebase more maintainable, testable, and follows Next.js and React best practices.
