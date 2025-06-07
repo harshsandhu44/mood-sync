@@ -7,6 +7,7 @@ import {
   SoundTypeSelector,
   AudioControls,
   PlaybackButton,
+  AudioVisualizer,
 } from "@/components";
 
 export default function Home() {
@@ -34,6 +35,11 @@ export default function Home() {
           volume={audioEngine.volume}
           onBaseFrequencyChange={audioEngine.handleBaseFrequencyChange}
           onVolumeChange={audioEngine.handleVolumeChange}
+        />
+        <AudioVisualizer
+          isPlaying={audioEngine.isPlaying}
+          soundType={audioEngine.soundType}
+          beatFrequency={audioEngine.beatFrequency}
         />
         <PlaybackButton
           isPlaying={audioEngine.isPlaying}
