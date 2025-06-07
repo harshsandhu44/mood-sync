@@ -1,3 +1,5 @@
+import { Button } from "./ui/button";
+
 interface PlaybackButtonProps {
   isPlaying: boolean;
   onToggle: () => void;
@@ -8,15 +10,12 @@ export const PlaybackButton = ({
   onToggle,
 }: PlaybackButtonProps) => {
   return (
-    <button
+    <Button
       onClick={onToggle}
-      className={`w-full py-4 px-6 rounded-xl text-white font-bold text-xl transition-all duration-300 transform ${
-        isPlaying
-          ? "bg-red-500 hover:bg-red-600 active:scale-95 shadow-lg"
-          : "bg-green-500 hover:bg-green-600 active:scale-95 shadow-lg"
-      }`}
+      variant={isPlaying ? "destructive" : "default"}
+      className="w-full"
     >
       {isPlaying ? "Pause Sound" : "Play Sound"}
-    </button>
+    </Button>
   );
 };
