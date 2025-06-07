@@ -1,3 +1,4 @@
+import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
 
@@ -23,10 +24,13 @@ export const AudioControls = ({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {/* Base Frequency Slider */}
       <div className="space-y-2">
-        <Label htmlFor="base-frequency">Base Frequency (Hz)</Label>
+        <Label htmlFor="base-frequency">
+          Base Frequency (Hz){" "}
+          <Badge variant="outline">{baseFrequency} Hz</Badge>
+        </Label>
         <Slider
           id="base-frequency"
           min={100}
@@ -39,7 +43,9 @@ export const AudioControls = ({
 
       {/* Volume Control */}
       <div className="space-y-2">
-        <Label htmlFor="volume-control">Volume (dB)</Label>
+        <Label htmlFor="volume-control">
+          Volume (dB) <Badge variant="outline">{volume} dB</Badge>
+        </Label>
         <Slider
           id="volume-control"
           min={-60}
