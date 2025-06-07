@@ -27,8 +27,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-card shadow-lg rounded-lg p-8 max-w-lg w-full">
-        <h1 className="text-4xl font-extrabold text-center text-primary mb-6">
+      <div className="bg-card shadow-lg rounded-lg p-8 max-w-lg w-full space-y-6">
+        <h1 className="text-4xl font-extrabold text-center text-primary">
           MoodSync
         </h1>
 
