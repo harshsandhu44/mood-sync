@@ -1,12 +1,14 @@
 "use client";
 
+import { SoundType } from "@/types/audio";
 import { InfoIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { useAudioEngine } from "@/hooks";
 
-export const HeadphoneNotice = () => {
-  const { soundType } = useAudioEngine();
+interface HeadphoneNoticeProps {
+  soundType: SoundType;
+}
 
+export const HeadphoneNotice = ({ soundType }: HeadphoneNoticeProps) => {
   if (soundType !== "binaural") return " ";
 
   return (

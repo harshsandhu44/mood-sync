@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef, useCallback, useEffect } from "react";
 import * as Tone from "tone";
 import { MoodName, SoundType } from "@/types/audio";
@@ -18,6 +20,8 @@ export const useAudioEngine = () => {
   const pannerRef = useRef<Tone.Panner | null>(null);
   const gainNodeRef = useRef<Tone.Gain | null>(null);
   const tremoloRef = useRef<Tone.Tremolo | null>(null);
+  const leftPannerRef = useRef<Tone.Panner | null>(null);
+  const rightPannerRef = useRef<Tone.Panner | null>(null);
 
   // Function to initialize Tone.js audio nodes
   const setupAudioNodes = useCallback(() => {
@@ -31,6 +35,8 @@ export const useAudioEngine = () => {
         osc2Ref.current = new Tone.Oscillator();
         pannerRef.current = new Tone.Panner();
         tremoloRef.current = new Tone.Tremolo(beatFrequency, 0.5);
+        leftPannerRef.current = new Tone.Panner(-1); // Full left
+        rightPannerRef.current = new Tone.Panner(1); // Full right
       } catch (error) {
         console.warn("Error creating audio nodes:", error);
       }
@@ -71,6 +77,14 @@ export const useAudioEngine = () => {
           tremoloRef.current.dispose();
           tremoloRef.current = null;
         }
+        if (leftPannerRef.current) {
+          leftPannerRef.current.dispose();
+          leftPannerRef.current = null;
+        }
+        if (rightPannerRef.current) {
+          rightPannerRef.current.dispose();
+          rightPannerRef.current = null;
+        }
       } catch (error) {
         console.warn("Error during audio cleanup:", error);
       }
@@ -84,7 +98,9 @@ export const useAudioEngine = () => {
       !osc2Ref.current ||
       !gainNodeRef.current ||
       !tremoloRef.current ||
-      !pannerRef.current
+      !pannerRef.current ||
+      !leftPannerRef.current ||
+      !rightPannerRef.current
     ) {
       setupAudioNodes();
       return;
@@ -98,6 +114,8 @@ export const useAudioEngine = () => {
     osc2Ref.current.disconnect();
     pannerRef.current.disconnect();
     tremoloRef.current.disconnect();
+    leftPannerRef.current.disconnect();
+    rightPannerRef.current.disconnect();
 
     // Reconnect nodes based on the current soundType
     if (soundType === "binaural") {
@@ -105,29 +123,52 @@ export const useAudioEngine = () => {
       osc1Ref.current.frequency.value = baseFrequency + beat / 2;
       osc2Ref.current.frequency.value = baseFrequency - beat / 2;
 
-      // Connect oscillators to panner, then panner to gain
-      osc1Ref.current.connect(pannerRef.current);
-      osc2Ref.current.connect(pannerRef.current);
-      pannerRef.current.connect(gainNodeRef.current);
+      // Connect oscillators to separate panners for stereo separation
+      osc1Ref.current.connect(leftPannerRef.current);
+      osc2Ref.current.connect(rightPannerRef.current);
+      leftPannerRef.current.connect(gainNodeRef.current);
+      rightPannerRef.current.connect(gainNodeRef.current);
 
+      // Ensure tremolo is disconnected for binaural
       tremoloRef.current.disconnect();
+
+      console.log(
+        `Binaural setup: Left=${baseFrequency + beat / 2}Hz, Right=${
+          baseFrequency - beat / 2
+        }Hz, Beat=${beat}Hz`
+      );
     } else {
       // Isochronic tones
       osc1Ref.current.frequency.value = baseFrequency;
-      osc2Ref.current.frequency.value = 0;
+      osc2Ref.current.frequency.value = 0; // Silence second oscillator
       osc2Ref.current.disconnect();
 
+      // Set tremolo frequency to the desired beat frequency
       tremoloRef.current.frequency.value = beat;
+      tremoloRef.current.depth.value = 1; // Full depth for clear pulsing
 
+      // Connect the main oscillator through tremolo to gain
       osc1Ref.current.connect(tremoloRef.current);
       tremoloRef.current.connect(gainNodeRef.current);
 
+      // Ensure panner is disconnected for isochronic
       pannerRef.current.disconnect();
+
+      console.log(
+        `Isochronic setup: Frequency=${baseFrequency}Hz, Tremolo=${beat}Hz`
+      );
     }
 
     // Update master volume
     gainNodeRef.current.gain.value = Tone.dbToGain(volume);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    console.log("**", {
+      selectedMood,
+      soundType,
+      baseFrequency,
+      volume,
+      setupAudioNodes,
+    });
   }, [selectedMood, soundType, baseFrequency, volume, setupAudioNodes]);
 
   // Effect hook to handle playback
@@ -141,26 +182,41 @@ export const useAudioEngine = () => {
         Tone.start().then(() => console.log("AudioContext resumed!"));
       }
 
+      // Always start the main oscillator
       if (osc1Ref.current.state !== "started") {
         osc1Ref.current.start();
+        console.log("Started main oscillator");
       }
 
       if (soundType === "binaural") {
+        // Start second oscillator for binaural beats
         if (osc2Ref.current.state !== "started") {
           osc2Ref.current.start();
+          console.log("Started second oscillator for binaural");
         }
+        // Tremolo doesn't need to be stopped for binaural - it's just not connected
+        console.log("Binaural mode - tremolo not connected");
       } else {
+        // Isochronic mode
+        // Stop second oscillator if it's running
         if (osc2Ref.current.state === "started") {
           osc2Ref.current.stop();
+          console.log("Stopped second oscillator for isochronic");
         }
+        // Tremolo is always active when connected - no need to start/stop
+        console.log("Isochronic mode - tremolo connected and active");
       }
     } else {
+      // Stop all audio sources
       if (osc1Ref.current.state === "started") {
         osc1Ref.current.stop();
+        console.log("Stopped main oscillator");
       }
       if (osc2Ref.current.state === "started") {
         osc2Ref.current.stop();
+        console.log("Stopped second oscillator");
       }
+      // Tremolo doesn't have start/stop states - it's controlled by connections
     }
   }, [isPlaying, soundType]);
 

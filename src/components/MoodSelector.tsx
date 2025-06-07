@@ -1,7 +1,6 @@
 "use client";
 
 import { MoodName } from "@/types/audio";
-import { useAudioEngine } from "@/hooks";
 import { moodFrequencies } from "@/constants/moodFrequencies";
 import { Label } from "./ui/label";
 import {
@@ -12,16 +11,22 @@ import {
   SelectValue,
 } from "./ui/select";
 
-export const MoodSelector = () => {
-  const { selectedMood, setSelectedMood } = useAudioEngine();
+interface MoodSelectorProps {
+  selectedMood: MoodName;
+  onMoodChange: (mood: MoodName) => void;
+}
 
+export const MoodSelector = ({
+  selectedMood,
+  onMoodChange,
+}: MoodSelectorProps) => {
   return (
     <div className="space-y-2">
       <Label htmlFor="mood-select">Select Your Desired Mood</Label>
 
       <Select
         value={selectedMood}
-        onValueChange={(value) => setSelectedMood(value as MoodName)}
+        onValueChange={(value) => onMoodChange(value as MoodName)}
       >
         <SelectTrigger className="w-full" id="mood-select">
           <SelectValue placeholder="Select a mood" />

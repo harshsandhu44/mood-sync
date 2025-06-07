@@ -3,16 +3,20 @@
 import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
-import { useAudioEngine } from "@/hooks";
 
-export const AudioControls = () => {
-  const {
-    baseFrequency,
-    volume,
-    handleBaseFrequencyChange,
-    handleVolumeChange,
-  } = useAudioEngine();
+interface AudioControlsProps {
+  baseFrequency: number;
+  volume: number;
+  onBaseFrequencyChange: (freq: number) => void;
+  onVolumeChange: (vol: number) => void;
+}
 
+export const AudioControls = ({
+  baseFrequency,
+  volume,
+  onBaseFrequencyChange,
+  onVolumeChange,
+}: AudioControlsProps) => {
   return (
     <div className="space-y-4">
       {/* Base Frequency Slider */}
@@ -27,7 +31,7 @@ export const AudioControls = () => {
           max={1000}
           step={10}
           value={[baseFrequency]}
-          onValueChange={(value) => handleBaseFrequencyChange(value[0])}
+          onValueChange={(value) => onBaseFrequencyChange(value[0])}
         />
       </div>
 
@@ -42,7 +46,7 @@ export const AudioControls = () => {
           max={0}
           step={1}
           value={[volume]}
-          onValueChange={(value) => handleVolumeChange(value[0])}
+          onValueChange={(value) => onVolumeChange(value[0])}
         />
       </div>
     </div>

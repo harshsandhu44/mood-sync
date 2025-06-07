@@ -1,3 +1,6 @@
+"use client";
+
+import { useAudioEngine, useCustomStyles } from "@/hooks";
 import {
   SafetyWarning,
   MoodSelector,
@@ -8,6 +11,10 @@ import {
 } from "@/components";
 
 export default function Home() {
+  // Call useAudioEngine only once at the top level
+  useCustomStyles();
+  const audioEngine = useAudioEngine();
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-card shadow-lg rounded-lg p-8 max-w-lg w-full space-y-6">
@@ -16,11 +23,25 @@ export default function Home() {
         </h1>
 
         <SafetyWarning />
-        <MoodSelector />
-        <SoundTypeSelector />
-        <AudioControls />
-        <PlaybackButton />
-        <HeadphoneNotice />
+        <MoodSelector
+          selectedMood={audioEngine.selectedMood}
+          onMoodChange={audioEngine.setSelectedMood}
+        />
+        <SoundTypeSelector
+          soundType={audioEngine.soundType}
+          onSoundTypeChange={audioEngine.setSoundType}
+        />
+        <AudioControls
+          baseFrequency={audioEngine.baseFrequency}
+          volume={audioEngine.volume}
+          onBaseFrequencyChange={audioEngine.handleBaseFrequencyChange}
+          onVolumeChange={audioEngine.handleVolumeChange}
+        />
+        <PlaybackButton
+          isPlaying={audioEngine.isPlaying}
+          onToggle={audioEngine.togglePlayback}
+        />
+        <HeadphoneNotice soundType={audioEngine.soundType} />
       </div>
     </div>
   );

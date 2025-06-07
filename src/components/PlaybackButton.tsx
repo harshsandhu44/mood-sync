@@ -1,14 +1,19 @@
 "use client";
 
-import { useAudioEngine } from "@/hooks";
 import { Button } from "./ui/button";
 
-export const PlaybackButton = () => {
-  const { isPlaying, togglePlayback } = useAudioEngine();
+interface PlaybackButtonProps {
+  isPlaying: boolean;
+  onToggle: () => void;
+}
 
+export const PlaybackButton = ({
+  isPlaying,
+  onToggle,
+}: PlaybackButtonProps) => {
   return (
     <Button
-      onClick={togglePlayback}
+      onClick={onToggle}
       variant={isPlaying ? "destructive" : "default"}
       className="w-full"
     >
