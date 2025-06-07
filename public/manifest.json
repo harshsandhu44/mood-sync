@@ -1,0 +1,22 @@
+{
+  "name": "MoodSync - Brainwave Entrainment App",
+  "short_name": "MoodSync",
+  "description": "MoodSync is a brainwave entrainment app that uses binaural beats and isochronic tones to help you relax, focus, and improve your mood.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
