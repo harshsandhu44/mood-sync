@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAudioEngine, useCustomStyles } from "@/hooks";
+import { useAudioEngine } from "@/hooks";
 import {
   SafetyWarning,
   MoodSelector,
@@ -15,8 +15,6 @@ import {
 export default function App() {
   const [warningVisible, setWarningVisible] = useState<boolean>(true);
 
-  // Use custom hooks
-  useCustomStyles();
   const {
     selectedMood,
     soundType,

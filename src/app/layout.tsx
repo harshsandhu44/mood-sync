@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Crimson_Pro } from "next/font/google";
+import RootProvider from "@/components/providers/root-provider";
 import "./globals.css";
 
 const fontSerif = Crimson_Pro({
@@ -20,8 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${fontSerif.className} antialiased`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${fontSerif.className} antialiased`}>
+        <RootProvider>{children}</RootProvider>
+      </body>
     </html>
   );
 }
