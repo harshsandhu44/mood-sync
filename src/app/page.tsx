@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useAudioEngine } from "@/hooks";
 import {
   SafetyWarning,
@@ -13,8 +12,6 @@ import {
 
 // Main App component for the Mood-Based Sound Frequency application
 export default function App() {
-  const [warningVisible, setWarningVisible] = useState<boolean>(true);
-
   const {
     selectedMood,
     soundType,
@@ -35,10 +32,7 @@ export default function App() {
           MoodSync
         </h1>
 
-        <SafetyWarning
-          isVisible={warningVisible}
-          onClose={() => setWarningVisible(false)}
-        />
+        <SafetyWarning />
 
         <MoodSelector
           selectedMood={selectedMood}
