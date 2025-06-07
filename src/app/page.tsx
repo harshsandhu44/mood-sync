@@ -7,11 +7,9 @@ import {
   SoundTypeSelector,
   AudioControls,
   PlaybackButton,
-  HeadphoneNotice,
 } from "@/components";
 
 export default function Home() {
-  // Call useAudioEngine only once at the top level
   useCustomStyles();
   const audioEngine = useAudioEngine();
 
@@ -41,7 +39,6 @@ export default function Home() {
           isPlaying={audioEngine.isPlaying}
           onToggle={audioEngine.togglePlayback}
         />
-        <HeadphoneNotice soundType={audioEngine.soundType} />
       </div>
     </div>
   );

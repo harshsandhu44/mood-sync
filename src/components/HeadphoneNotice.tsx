@@ -1,18 +1,19 @@
 "use client";
 
-import { SoundType } from "@/types/audio";
 import { InfoIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { forwardRef } from "react";
 
-interface HeadphoneNoticeProps {
-  soundType: SoundType;
-}
-
-export const HeadphoneNotice = ({ soundType }: HeadphoneNoticeProps) => {
-  if (soundType !== "binaural") return " ";
-
+export const HeadphoneNotice = forwardRef<HTMLDivElement, object>((_, ref) => {
   return (
-    <Alert>
+    <Alert
+      ref={ref}
+      className="opacity-0 transform translate-y-[-10px] overflow-hidden"
+      style={{
+        display: "none",
+        height: 0,
+      }}
+    >
       <InfoIcon className="h-4 w-4" />
       <AlertTitle>Headphone Notice</AlertTitle>
       <AlertDescription>
@@ -21,4 +22,6 @@ export const HeadphoneNotice = ({ soundType }: HeadphoneNoticeProps) => {
       </AlertDescription>
     </Alert>
   );
-};
+});
+
+HeadphoneNotice.displayName = "HeadphoneNotice";

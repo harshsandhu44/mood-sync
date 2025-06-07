@@ -17,7 +17,7 @@ export const PlaybackButton = ({
       variant={isPlaying ? "destructive" : "default"}
       className="w-full"
     >
-      {isPlaying ? "Pause Sound" : "Play Sound"}
+      {isPlaying ? "Pause" : "Play"}
     </Button>
   );
 };

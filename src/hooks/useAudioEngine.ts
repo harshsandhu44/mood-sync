@@ -161,14 +161,6 @@ export const useAudioEngine = () => {
 
     // Update master volume
     gainNodeRef.current.gain.value = Tone.dbToGain(volume);
-
-    console.log("**", {
-      selectedMood,
-      soundType,
-      baseFrequency,
-      volume,
-      setupAudioNodes,
-    });
   }, [selectedMood, soundType, baseFrequency, volume, setupAudioNodes]);
 
   // Effect hook to handle playback
