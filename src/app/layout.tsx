@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Crimson_Pro } from "next/font/google";
 import RootProvider from "@/components/providers/root-provider";
+import { fontSans, fontSerif } from "@/lib/fonts";
 import "./globals.css";
-
-const fontSerif = Crimson_Pro({
-  variable: "--font-serif",
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "MoodSync - A Brainwave Entrainment App",
@@ -22,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fontSerif.className} antialiased`}>
+      <body
+        className={`${fontSans.className} ${fontSerif.className} antialiased`}
+      >
         <RootProvider>{children}</RootProvider>
       </body>
     </html>

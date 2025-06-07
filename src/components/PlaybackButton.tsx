@@ -1,5 +1,6 @@
 "use client";
 
+import { PauseIcon, PlayIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface PlaybackButtonProps {
@@ -17,7 +18,17 @@ export const PlaybackButton = ({
       variant={isPlaying ? "destructive" : "default"}
       className="w-full"
     >
-      {isPlaying ? "Pause" : "Play"}
+      {isPlaying ? (
+        <>
+          <PauseIcon className="size-4" />
+          <span>Pause</span>
+        </>
+      ) : (
+        <>
+          <PlayIcon className="size-4" />
+          <span>Play</span>
+        </>
+      )}
     </Button>
   );
 };
