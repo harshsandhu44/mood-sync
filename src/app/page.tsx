@@ -31,10 +31,10 @@ export default function App() {
   } = useAudioEngine();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center p-4 font-inter text-gray-800">
-      <div className="bg-white rounded-3xl shadow-xl p-8 max-w-lg w-full transform transition-all duration-300 hover:scale-105">
-        <h1 className="text-4xl font-extrabold text-center text-blue-800 mb-6">
-          MoodSync Audio
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-card shadow-lg rounded-lg p-8 max-w-lg w-full transform transition-all duration-300 hover:scale-105">
+        <h1 className="text-4xl font-extrabold text-center text-primary mb-6">
+          MoodSync
         </h1>
 
         <SafetyWarning
