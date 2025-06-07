@@ -1,5 +1,13 @@
 import { MoodName } from "@/types/audio";
 import { moodFrequencies } from "@/constants/moodFrequencies";
+import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface MoodSelectorProps {
   selectedMood: MoodName;
@@ -11,26 +19,27 @@ export const MoodSelector = ({
   onMoodChange,
 }: MoodSelectorProps) => {
   return (
-    <div className="mb-6">
-      <label
-        htmlFor="mood-select"
-        className="block text-lg font-semibold text-gray-700 mb-2"
-      >
-        Select Your Desired Mood:
-      </label>
-      <select
-        id="mood-select"
+    <div className="space-y-2">
+      <Label htmlFor="mood-select">Select Your Desired Mood</Label>
+
+      <Select
         value={selectedMood}
-        onChange={(e) => onMoodChange(e.target.value as MoodName)}
-        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+        onValueChange={(value) => onMoodChange(value as MoodName)}
       >
-        {Object.keys(moodFrequencies).map((mood) => (
-          <option key={mood} value={mood}>
-            {mood} ({moodFrequencies[mood as MoodName].beat} Hz)
-          </option>
-        ))}
-      </select>
-      <p className="text-sm text-gray-600 mt-2">
+        <SelectTrigger className="w-full" id="mood-select">
+          <SelectValue placeholder="Select a mood" />
+        </SelectTrigger>
+
+        <SelectContent>
+          {Object.keys(moodFrequencies).map((mood) => (
+            <SelectItem key={mood} value={mood}>
+              {mood} ({moodFrequencies[mood as MoodName].beat} Hz)
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <p className="text-sm text-muted-foreground">
         {moodFrequencies[selectedMood].description}
       </p>
     </div>
