@@ -1,4 +1,6 @@
 import { SoundType } from "@/types/audio";
+import { Label } from "./ui/label";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 interface SoundTypeSelectorProps {
   soundType: SoundType;
@@ -10,38 +12,27 @@ export const SoundTypeSelector = ({
   onSoundTypeChange,
 }: SoundTypeSelectorProps) => {
   return (
-    <div className="mb-6">
-      <label className="block text-lg font-semibold text-gray-700 mb-2">
-        Choose Sound Type:
-      </label>
-      <div className="flex space-x-4">
-        <label className="inline-flex items-center cursor-pointer">
-          <input
-            type="radio"
-            className="form-radio h-5 w-5 text-blue-600"
-            name="soundType"
-            value="isochronic"
-            checked={soundType === "isochronic"}
-            onChange={() => onSoundTypeChange("isochronic")}
-          />
-          <span className="ml-2 text-gray-700">
+    <div className="space-y-2">
+      <Label htmlFor="sound-type-select">Choose Sound Type</Label>
+
+      <RadioGroup
+        value={soundType}
+        onValueChange={(value) => onSoundTypeChange(value as SoundType)}
+      >
+        <div className="flex space-x-4">
+          <RadioGroupItem value="isochronic" id="isochronic-tones" />
+          <Label htmlFor="isochronic-tones">
             Isochronic Tones (No headphones needed)
-          </span>
-        </label>
-        <label className="inline-flex items-center cursor-pointer">
-          <input
-            type="radio"
-            className="form-radio h-5 w-5 text-blue-600"
-            name="soundType"
-            value="binaural"
-            checked={soundType === "binaural"}
-            onChange={() => onSoundTypeChange("binaural")}
-          />
-          <span className="ml-2 text-gray-700">
+          </Label>
+        </div>
+
+        <div className="flex space-x-4">
+          <RadioGroupItem value="binaural" id="binaural-beats" />
+          <Label htmlFor="binaural-beats">
             Binaural Beats (Headphones required)
-          </span>
-        </label>
-      </div>
+          </Label>
+        </div>
+      </RadioGroup>
     </div>
   );
 };
